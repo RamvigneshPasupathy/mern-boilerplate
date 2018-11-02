@@ -1,5 +1,5 @@
 const service = require('./service');
-
+const logger = require('../applogger.js');
 // function welcome() {
 //   process.stdout.write('\n=========== Boilerplate ===========\n');
 // }
@@ -8,11 +8,11 @@ function welcome() {
   let figlet = require('figlet');
   return figlet('Boilerplate', function(err, data) {
       if (err) {
-          console.log('Something went wrong!');
-          console.dir(err);
-          return;
+        logger.error('figlet failure...\n');
+        logger.error(err);
+        return;
       }
-      console.log(data)
+      logger.info(data);
   });
 }
 
