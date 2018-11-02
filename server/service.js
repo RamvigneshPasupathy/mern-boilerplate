@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const logger = require('../applogger.js');
 
 let createApp = function() {
   const app = express();
@@ -26,7 +27,7 @@ let setupRESTRoutes = function(app) {
   });
 
   app.use(function (err, req, res) {
-    console.error('internal error in watch processor: ', err);
+    logger.error('internal error in watch processor: ', err);
     return res.status(err.status || 500).json({
       error: err.message
     });
@@ -64,22 +65,20 @@ let setupMongooseConnections = function() {
   mongoose.connect(mongoURL);
 
   mongoose.connection.on('connected', function () {
-    console.log('mongoose is now connected to ', mongoURL);
+    logger.info('mongoose is now connected to ', mongoURL);
 
 
     mongoose.connection.on('error', function (err) {
-      console.error('error in mongoose connection: ', err);
+      logger.error('error in mongoose connection: ', err);
     });
 
     mongoose.connection.on('disconnected', function () {
-      console.log('mongoose is now disconnected.');
+      logger.info('mongoose is now disconnected.');
     });
 
     process.on('SIGINT', function () {
       mongoose.connection.close(function () {
-        console.log(
-          'mongoose disconnected on process termination'
-          );
+        logger.info('mongoose disconnected on process termination');
         process.exit(0);
       });
     });

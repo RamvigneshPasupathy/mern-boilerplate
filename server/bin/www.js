@@ -3,6 +3,7 @@
 // module dependencies.
 var app = require('../app')();
 var http = require('http');
+const logger = require('../../applogger.js');
 
 // get port from environment and store in express.
 var port = normalizePort(process.env.PORT || '3000');
@@ -46,11 +47,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      logger.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      logger.error(bind + ' is already in use');
       process.exit(1);
       break;
     default:
@@ -60,7 +61,7 @@ function onError(error) {
 
 // event listener for http server "listening" event.
 function onListening() {
-  console.log('server started listening on port 3000');
+  logger.info('server started listening on port 3000');
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
