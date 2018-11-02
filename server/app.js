@@ -1,7 +1,19 @@
 const service = require('./service');
 
+// function welcome() {
+//   process.stdout.write('\n=========== Boilerplate ===========\n');
+// }
+
 function welcome() {
-  process.stdout.write('\n=========== Boilerplate ===========\n');
+  let figlet = require('figlet');
+  return figlet('Boilerplate', function(err, data) {
+      if (err) {
+          console.log('Something went wrong!');
+          console.dir(err);
+          return;
+      }
+      console.log(data)
+  });
 }
 
 module.exports = function () {
